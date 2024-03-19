@@ -32,7 +32,7 @@ train_loader:
   dataset:
     local: ${data_local}
     remote: ${data_remote}
-    split: train
+    split: train_small
     shuffle: true
     max_seq_len: ${max_seq_len}
     shuffle_seed: ${global_seed}
@@ -44,7 +44,7 @@ eval_loader:
   dataset:
     local: ${data_local}
     remote: ${data_remote}
-    split: val
+    split: val_small
     shuffle: false
     max_seq_len: ${max_seq_len}
     shuffle_seed: ${global_seed}
@@ -104,3 +104,5 @@ callbacks:
   lr_monitor: {}
   memory_monitor: {}
   runtime_estimator: {}
+
+save_folder: ./tmp
