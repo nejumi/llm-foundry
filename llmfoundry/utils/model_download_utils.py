@@ -235,6 +235,14 @@ def download_from_http_fileserver(
                                 ignore_cert=ignore_cert)
 
 
+@tenacity.retry(
+    stop=tenacity.stop_after_attempt(100),
+    before_sleep=tenacity.before_sleep_log(
+        logger=log,
+        log_level=logging.WARNING,
+        exc_info=True,
+    ),
+)
 def download_from_oras(model: str,
                        config_file: str,
                        credentials_dir: str,
@@ -252,6 +260,7 @@ def download_from_oras(model: str,
         tokenizer_only (bool): If true, only download the tokenzier files.
         concurrency (int): The number of concurrent downloads to run.
     """
+    log.info(f'Downloading model {model} from ORAS registry')
     if shutil.which(ORAS_CLI) is None:
         raise Exception(
             f'oras cli command `{ORAS_CLI}` is not found. Please install oras: https://oras.land/docs/installation '

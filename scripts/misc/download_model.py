@@ -21,6 +21,7 @@ import argparse
 import logging
 import os
 
+from composer.utils import dist, get_device
 from llmfoundry.utils.model_download_utils import (
     download_from_hf_hub, download_from_http_fileserver, download_from_oras)
 
@@ -29,6 +30,7 @@ HF_TOKEN_ENV_VAR = 'HUGGING_FACE_HUB_TOKEN'
 logging.basicConfig(format=f'%(asctime)s: %(levelname)s: %(name)s: %(message)s',
                     level=logging.INFO)
 log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 
 def add_hf_parser_arguments(parser: argparse.ArgumentParser) -> None:
@@ -56,6 +58,7 @@ def parse_args() -> argparse.Namespace:
     subparsers = parser.add_subparsers(dest='download_from', required=True)
 
     base_parser = argparse.ArgumentParser(add_help=False)
+    base_parser.add_argument('--dist-timeout', type=int, default=7200)
     base_parser.add_argument('--save-dir', type=str, required=True)
     base_parser.add_argument('--tokenizer-only',
                              default=False,
@@ -86,6 +89,10 @@ def parse_args() -> argparse.Namespace:
 
 if __name__ == '__main__':
     args = parse_args()
+
+    dist.initialize_dist(get_device(None), timeout=args.dist_timeout)
+    dist.barrier()
+
     download_from = args.download_from
 
     if download_from == 'http':
@@ -126,3 +133,6 @@ if __name__ == '__main__':
                            args.save_dir,
                            tokenizer_only=args.tokenizer_only,
                            concurrency=args.concurrency)
+
+    log.info('Finished downloading')
+    dist.barrier()
