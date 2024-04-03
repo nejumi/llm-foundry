@@ -47,19 +47,19 @@ classifiers = [
 ]
 
 install_requires = [
-    'composer[libcloud,nlp,wandb]>=0.15.0,<0.16',
-    'accelerate>=0.19,<0.20',  # for HF inference `device_map`
-    'mosaicml-streaming>=0.5.1,<0.6',
-    'torch>=1.13.1,<=2.0.1',
+    'composer[libcloud,nlp,wandb]>=0.15.0',
+    'accelerate>=0.19',  # for HF inference `device_map`
+    'mosaicml-streaming>=0.5.1',
+    'torch>=1.13.1, <=2.0.1',
     'datasets==2.10.1',
     'sentencepiece==0.1.97',
     'einops==0.5.0',
-    'omegaconf>=2.2.3,<3',
+    'omegaconf>=2.2.3',
     'slack-sdk<4',
-    'mosaicml-cli>=0.3,<1',
+    'mosaicml-cli>=0.3',
     'onnx==1.14.0',
     'onnxruntime==1.15.1',
-    'cmake>=3.25.0,<=3.26.3',  # required for triton-pre-mlir below
+    'cmake>=3.25.0',  # required for triton-pre-mlir below
     # PyPI does not support direct dependencies, so we remove this line before uploading from PyPI
     'triton-pre-mlir@git+https://github.com/vchiley/triton.git@triton_pre_mlir_sm90#subdirectory=python',
 ]
@@ -67,21 +67,21 @@ install_requires = [
 extra_deps = {}
 
 extra_deps['dev'] = [
-    'pre-commit>=2.18.1,<3',
-    'pytest>=7.2.1,<8',
-    'pytest_codeblocks>=0.16.1,<0.17',
-    'pytest-cov>=4,<5',
+    'pre-commit>=2.18.1',
+    'pytest>=7.2.1',
+    'pytest_codeblocks>=0.16.1',
+    'pytest-cov>=4',
     'pyright==1.1.296',
-    'toml>=0.10.2,<0.11',
-    'packaging>=21,<23',
+    'toml>=0.10.2',
+    'packaging>=21',
 ]
 
 extra_deps['tensorboard'] = [
-    'composer[tensorboard]>=0.15.0,<0.16',
+    'composer[tensorboard]>=0.15.0',
 ]
 
 extra_deps['gpu'] = [
-    'flash-attn==v1.0.3.post0',
+    #'flash-attn==1.0.6',
     # PyPI does not support direct dependencies, so we remove this line before uploading from PyPI
     'xentropy-cuda-lib@git+https://github.com/HazyResearch/flash-attention.git@v1.0.3#subdirectory=csrc/xentropy',
 ]
@@ -89,7 +89,7 @@ extra_deps['gpu'] = [
 extra_deps['peft'] = [
     'loralib==0.1.1',  # lora core
     'bitsandbytes==0.39.1',  # 8bit
-    'scipy>=1.10.0,<=1.11.0',  # bitsandbytes dependency; TODO: eliminate when incorporated to bitsandbytes
+    'scipy>=1.10.0',  # bitsandbytes dependency; TODO: eliminate when incorporated to bitsandbytes
     # TODO: pin peft when it stabilizes.
     # PyPI does not support direct dependencies, so we remove this line before uploading from PyPI
     'peft@git+https://github.com/huggingface/peft.git',
